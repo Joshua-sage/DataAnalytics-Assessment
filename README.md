@@ -44,17 +44,20 @@
 ## Challenges
 
 - **Data Structure Understanding:**  
-  Mapping foreign key relationships between tables (e.g., linking plans to users) and distinguishing savings vs. investment plans based on columns like `is_regular_savings` and `is_a_fund`.
+  I mapped the relationships between tables by linking related data (like plans to users). I also made sure to differentiate between savings and investment plans by using specific columns like `is_regular_savings` and `is_a_fund`.
 
 - **Date Calculations:**  
-  Handling transaction date ranges to accurately compute tenure, inactivity, and transaction frequency, especially with possible missing or NULL values.
+  I carefully managed transaction date ranges to calculate tenure, inactivity periods, and transaction frequency. paying extra attention to handle any missing or NULL values correctly.
 
 - **Amount Conversion:**  
-  All monetary values were stored in kobo, so I ensured all final outputs converted to naira (by dividing by 100).
+  Since all amount fields were in kobo, I made sure to convert them to naira in the final outputs by dividing by 100.
 
 - **Division by Zero:**  
-  Used `NULLIF` to avoid division by zero errors, especially for new users with tenure < 1 month.
+  I Used `NULLIF` to avoid division by zero errors, especially for new users with tenure < 1 month.
 
+- **Computing Months (Question 2):**  
+  To calculate how many months each customer was active, I had to be precise since transactions might happen within the same month or might not cover full months.
+  
 ---
 
 ## How Challenges Were Resolved
@@ -62,6 +65,7 @@
 - Carefully explored all columns in each table before writing queries.
 - Added conditional logic to handle potential NULL values and avoid calculation errors.
 - Tested calculation logic (e.g., CLV formula) step-by-step before combining into final queries.
+-  I used `TIMESTAMPDIFF(MONTH, MIN(transaction_date), MAX(transaction_date)) + 1` to count the number of active months, I added 1 to make sure both the starting and ending months are included. This way, I accurately count users who make transactions within the same month or do otherwise.
 
 ---
 
